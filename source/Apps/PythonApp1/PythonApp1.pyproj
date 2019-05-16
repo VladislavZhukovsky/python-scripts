@@ -42,6 +42,7 @@
     <Compile Include="funcs3.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="funcs_homework.py" />
     <Compile Include="lists.py">
       <SubType>Code</SubType>
     </Compile>
@@ -51,6 +52,8 @@
     <Compile Include="oop.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="oop_bank.py" />
+    <Compile Include="oop_hw.py" />
     <Compile Include="package1\module1.py">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +61,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="pythonApp1.py" />
+    <Compile Include="PythonJson.py" />
+    <Compile Include="PythonTricks.py" />
     <Compile Include="tic_tac_toe.py">
       <SubType>Code</SubType>
     </Compile>
