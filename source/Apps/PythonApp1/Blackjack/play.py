@@ -66,7 +66,7 @@ class Player():
         self.name = name
         self.cash = start_cash
         self.bets = 0
-        self.win = 0
+        self.wins = 0
         self.hand = Hand()
 
     def bet(self, amount):
@@ -74,7 +74,7 @@ class Player():
         self.cash -= amount
 
     def win(self, amount):
-        self.win += amount
+        self.wins += amount
         self.cash += amount
 
     def add_cash(self, amount):
@@ -87,20 +87,20 @@ class Player():
         self.hand = Hand()
 
     def __str__(self):
-        return f'{self.name} - {self.cash}, bets: {self.bets}, win: {self.win}'
+        return f'{self.name} - {self.cash}, bets: {self.bets}, win: {self.wins}'
 
 class Dealer():
     def __init__(self):
         self.name = 'Dealer'
         self.bets = 0
-        self.win = 0
+        self.wins = 0
         self.hand = Hand()
 
     def bet(self, amount):
         self.bets += amount
 
     def win(self, amount):
-        self.win += amount
+        self.wins += amount
 
     def draw_card(self, card: Card):
         self.hand.add_card(card)
@@ -109,7 +109,7 @@ class Dealer():
         self.hand = Hand()
 
     def __str__(self):
-        return f'{self.name}, bets: {self.bets}, win: {self.win}'
+        return f'{self.name}, bets: {self.bets}, win: {self.wins}'
 
 class BlackjackGame():
     def __init__(self):
@@ -122,12 +122,12 @@ class BlackjackGame():
         self.__create_human_players(players_count)
         self.dealer_plays = play_with_dealer
 
-    def new_game(self):
+    def new_lap(self):
         clear()
         self.__print_players()
 
     def play(self):
-        self.__make_bets()
+        bet = self.__make_bets()
         clear()
         self.__print_players()
         self.deck = Deck()
@@ -141,7 +141,7 @@ class BlackjackGame():
                 print(f'{self.dealer.name} wins')
                 return
             self.__dealer_turn()
-            self.__finish_game()
+            self.__finish_lap(bet)
         else:
             for player in self.players:
                 self.turn(player)
@@ -157,10 +157,10 @@ class BlackjackGame():
         player.draw_card(self.deck.draw_card())
         player.draw_card(self.deck.draw_card())
 
-    def __finish_game(self, current_bet):
+    def __finish_lap(self, current_bet):
         not_bust_players = list(filter(lambda p: p.hand.value <= 21, self.players))
         best_player = max(not_bust_players, key=lambda p: p.hand.value)
-        win = current_bet * len(players)
+        win = current_bet * len(self.players)
         if self.dealer_plays:
             win + 1
         if (best_player is None):
@@ -202,7 +202,7 @@ class BlackjackGame():
         from time import sleep
         while self.dealer.hand.value < self.players[0].hand.value:
             print(f'{self.dealer.name} take a card...')
-            self.dealer.take_card(self.deck.draw_card())
+            self.dealer.draw_card(self.deck.draw_card())
             print(self.dealer.hand)
             sleep(3)
 
@@ -255,7 +255,7 @@ class BlackjackGame():
             player.bet(bet_value)
         if self.dealer_plays:
             self.dealer.bet(bet_value)
-        pass
+        return bet_value
 
     def __print_players(self):
         if self.players:
@@ -269,6 +269,7 @@ class BlackjackGame():
 bj = BlackjackGame()
 
 bj.invite_players()
-bj.new_game()
-bj.play()
+while(True):
+    bj.new_lap()
+    bj.play()
 #bj.print_players()
