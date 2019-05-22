@@ -122,11 +122,9 @@ class BlackjackGame():
         self.__create_human_players(players_count)
         self.dealer_plays = play_with_dealer
 
-    def new_lap(self):
+    def play(self):
         clear()
         self.__print_players()
-
-    def play(self):
         self.__clear_hands()
         bet = self.__make_bets()
         clear()
@@ -138,12 +136,10 @@ class BlackjackGame():
         for player in self.players:
             self.__turn(player)
             print('========================')
-
         best_player = None
         best_hand_value = None
         not_busted = list(filter(lambda p: p.hand.value <= 21, self.players))
         if len(not_busted) > 0:
-            #draw???
             best_player = max(not_busted, key=lambda p: p.hand.value)
             best_hand_value = best_player.hand.value
         best_players = list(filter(lambda p: p.hand.value == best_hand_value, not_busted))
@@ -157,6 +153,7 @@ class BlackjackGame():
             player.clear_hand()
         if self.dealer_plays:
             self.dealer.clear_hand()
+        pass
 
     def __original_hand(self):
         for player in self.players:
@@ -191,14 +188,30 @@ class BlackjackGame():
                     self.dealer.win(win)
                     print(f'{self.dealer.name} wins {win}')
                 else:
-                    best_player.win(win)
-                    print(f'{best_player.name}, you win {win}')
+                    win /= len(best_players)
+                    for best_player in best_players:
+                        best_player.win(win)
+                        print(f'{best_player.name}, you win {win}')
             else:
-                if (len(best_players)!= 0):
-                    win /= 1 + len(best_players)
+                print('Draw')
+                win /= len(best_players)
                 for best_player in best_players:
                     best_player.win(win)
                     print(f'{best_player.name}, you win {win}')
+
+    def __make_bets(self):
+        while(True):
+            try:
+                bet_value = int(input('Current bet: '))
+            except:
+                print('Invalid bet value')
+            else:
+                break
+        for player in self.players:
+            player.bet(bet_value)
+        if self.dealer_plays:
+            self.dealer.bet(bet_value)
+        return bet_value
 
     def __turn(self, player):
         play = True
@@ -246,7 +259,7 @@ class BlackjackGame():
 
         play_with_dealer_str = ''
         while play_with_dealer_str not in ['y', 'n']:
-            play_with_dealer_str = 'n'#input('Play with dealer (y/n)?')
+            play_with_dealer_str = 'y'#input('Play with dealer (y/n)?')
         play_with_dealer = play_with_dealer_str == 'y'
 
         return players_count, play_with_dealer
@@ -267,25 +280,6 @@ class BlackjackGame():
                 return Player(name, player_cash)
         pass
 
-    def __show_dealer(self):
-        print(self.dealer.name)
-        print('[?]')
-        print(self.dealer.hand.cards[1])
-
-    def __make_bets(self):
-        while(True):
-            try:
-                bet_value = int(input('Current bet: '))
-            except:
-                print('Invalid bet value')
-            else:
-                break
-        for player in self.players:
-            player.bet(bet_value)
-        if self.dealer_plays:
-            self.dealer.bet(bet_value)
-        return bet_value
-
     def __print_players(self):
         if self.players:
             for p in self.players:
@@ -295,12 +289,14 @@ class BlackjackGame():
         else:
             print('No players')
 
-bj = BlackjackGame()
+    def __show_dealer(self):
+        print(self.dealer.name)
+        print('[?]')
+        print(self.dealer.hand.cards[1])
 
+bj = BlackjackGame()
 bj.invite_players()
 play_again = 'y'
 while(play_again == 'y'):
-    bj.new_lap()
     bj.play()
     play_again = input('Play again (y/n)?')
-#bj.print_players()
