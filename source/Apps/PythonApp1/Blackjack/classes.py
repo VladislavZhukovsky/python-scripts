@@ -206,7 +206,7 @@ class BlackjackGame():
         win = current_bet * len(self.players)
         if self.dealer_plays:
             win += current_bet
-        if best_players == 0:
+        if not best_players:
             print(f'{self.dealer.name} wins {win}')
         else:
             #multiple best hands
