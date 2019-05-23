@@ -116,6 +116,7 @@ class BlackjackGame():
         self.players = []
         self.dealer = Dealer()
         self.dealer_plays = False
+        self.deck = None
 
     def invite_players(self):
         players_count, play_with_dealer = self.__ask_human_players_count_and_dealer()
@@ -225,11 +226,11 @@ class BlackjackGame():
             while draw_card not in ['y', 'n']:
                 draw_card = input('Next card? (y/n)')
             if draw_card == 'y':
-                    player.draw_card(self.deck.draw_card())
-                    if (player.hand.value > 21):
-                        print(player.hand)
-                        print(f'{player.name}, BUST.')
-                        play = False
+                player.draw_card(self.deck.draw_card())
+                if (player.hand.value > 21):
+                    print(player.hand)
+                    print(f'{player.name}, BUST.')
+                    play = False
             else:
                 play = False
             print('------------------------')
@@ -251,7 +252,7 @@ class BlackjackGame():
     def __ask_human_players_count_and_dealer(self):
         players_count_str = ''
         while players_count_str not in ['1', '2', '3', '4', '5']:
-            players_count_str = '2'#input('How many human players will play (max 5)?')
+            players_count_str = input('How many human players will play (max 5)?')
         players_count = int(players_count_str)
 
         if players_count == 1:
@@ -259,7 +260,7 @@ class BlackjackGame():
 
         play_with_dealer_str = ''
         while play_with_dealer_str not in ['y', 'n']:
-            play_with_dealer_str = 'y'#input('Play with dealer (y/n)?')
+            play_with_dealer_str = input('Play with dealer (y/n)?')
         play_with_dealer = play_with_dealer_str == 'y'
 
         return players_count, play_with_dealer
@@ -270,10 +271,10 @@ class BlackjackGame():
             self.players.append(new_player)
 
     def __create_player(self, player_index):
-        name = 'Player' + str(player_index) #input(f"Player {player_index}, what's your name? ")
+        name = input(f"Player {player_index}, what's your name? ")
         while True:
             try:
-                player_cash = 100 - player_index#int(input(f"{name}, input you start cash: "))
+                player_cash = int(input(f"{name}, input you start cash: "))
             except:
                 print('Invalid cash amount')
             else:
