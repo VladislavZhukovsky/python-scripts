@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>33645aa1-3a3f-445d-8a65-3cd51cfade9b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Blackjack\play.py</StartupFile>
+    <StartupFile>decorators.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -31,6 +31,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Blackjack\__init__.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="decorators.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="errors_and_exceptions.py">
