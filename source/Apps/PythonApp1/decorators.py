@@ -1,4 +1,7 @@
+from functools import wraps
+
 def decorator_func(original):
+    @wraps(original)
     def wrapper():
         print('wrapper')
         original()
@@ -13,10 +16,12 @@ def counter(func):
     return wrapper
 
 @decorator_func
-@counter
+#@counter
 def original_func():
+    '''docstring1'''
     print('original')
 
 
 original_func()
-original_func()
+print(original_func.__name__)
+print(original_func.__doc__)
