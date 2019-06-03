@@ -4,7 +4,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>33645aa1-3a3f-445d-8a65-3cd51cfade9b</ProjectGuid>
     <ProjectHome>.</ProjectHome>
-    <StartupFile>Blackjack\play.py</StartupFile>
+    <StartupFile>generators.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
@@ -46,6 +46,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="funcs_homework.py" />
+    <Compile Include="generators.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="lists.py">
       <SubType>Code</SubType>
     </Compile>
